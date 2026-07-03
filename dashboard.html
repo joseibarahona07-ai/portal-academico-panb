@@ -145,6 +145,32 @@
             </div>
         </div>
     </div>
+<script>
+        // Leer los datos que guardamos en el login
+        const datosSesion = localStorage.getItem('sesionPANB');
 
+        if (!datosSesion) {
+            // Si alguien intenta entrar sin loguearse, lo regresa al login
+            window.location.href = 'index.html';
+        } else {
+            const usuario = JSON.parse(datosSesion);
+            
+            // Modificar la interfaz dinámicamente con sus datos reales
+            document.getElementById('welcomeTitle').innerText = `Bienvenido, ${usuario.nombre}`;
+            document.getElementById('userRole').innerText = usuario.rol;
+
+            // Si es estudiante, ocultamos funciones exclusivas de maestros
+            if (usuario.rol === 'Estudiante') {
+                const btnMaestros = document.getElementById('btnMaestros');
+                if (btnMaestros) btnMaestros.style.display = 'none';
+            }
+        }
+
+        // Lógica sencilla para el botón de cerrar sesión
+        document.querySelector('.sidebar button[style*="background"]').addEventListener('click', function() {
+            localStorage.removeItem('sesionPANB');
+            window.location.href = 'index.html';
+        });
+    </script>
 </body>
 </html>
