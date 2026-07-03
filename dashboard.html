@@ -21,7 +21,7 @@
             display: flex;
             height: 100vh;
         }
-        /* Menú Lateral Elegante */
+        /* Menú Lateral */
         .sidebar {
             width: 260px;
             background-color: var(--azul-marino);
@@ -73,6 +73,10 @@
         .header-bar h1 { margin: 0; color: var(--azul-marino); font-size: 1.6rem; }
         .user-tag { background: var(--azul-marino); color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem;}
         
+        /* Contenedores de Secciones */
+        .seccion-panel { display: none; }
+        .seccion-panel.activa { display: block; }
+
         /* Aulas y Tarjetas */
         .grid-clases {
             display: grid;
@@ -85,11 +89,8 @@
             padding: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             border-top: 4px solid var(--azul-marino);
-            transition: transform 0.2s;
         }
-        .clase-card:hover { transform: translateY(-3px); }
         .clase-card h3 { margin-top: 0; color: var(--azul-marino); }
-        .clase-card p { color: var(--plata); font-size: 0.9rem; }
         .btn-entrar {
             background: var(--azul-marino);
             color: white;
@@ -99,78 +100,172 @@
             cursor: pointer;
             font-weight: bold;
             font-size: 0.9rem;
+            width: 100%;
         }
         .btn-entrar:hover { background: var(--azul-claro); }
+
+        /* Tablas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-top: 15px;
+        }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: var(--azul-marino); color: white; }
     </style>
 </head>
 <body>
 
-    <!-- Menú Lateral Izquierdo -->
+    <!-- Menú Lateral -->
     <div class="sidebar">
         <h2>PANB VIRTUAL</h2>
         <br>
-        <button class="menu-btn active">📚 Mis Clases</button>
-        <button class="menu-btn">🏫 Aulas Virtuales</button>
-        <button class="menu-btn" id="btnMaestros">👨‍🏫 Panel de Maestros</button>
-        <button class="menu-btn" style="margin-top: auto; background: #c0392b;">🚪 Cerrar Sesión</button>
+        <button class="menu-btn active" onclick="cambiarSeccion('aulas')">🏫 Aulas Virtuales</button>
+        <button class="menu-btn" id="btnNotas" onclick="cambiarSeccion('calificaciones')">📊 Calificaciones</button>
+        <button class="menu-btn" id="btnMaestros" onclick="cambiarSeccion('maestros')">👨‍🏫 Control Docente</button>
+        <button class="menu-btn" style="margin-top: auto; background: #c0392b;" onclick="cerrarSesion()">🚪 Cerrar Sesión</button>
     </div>
 
     <!-- Panel Central Contenedor -->
     <div class="main-content">
         <div class="header-bar">
-            <h1 id="welcomeTitle">Bienvenido al Portal Académico</h1>
+            <h1 id="welcomeTitle">Cargando...</h1>
             <span class="user-tag" id="userRole">Estudiante</span>
         </div>
 
-        <!-- Sección de Aulas Dinámicas -->
-        <h2>Tus Aulas Virtuales</h2>
-        <div class="grid-clases">
-            <div class="clase-card">
-                <h3>Informática</h3>
-                <p>Profesor: Asignado</p>
-                <p>Contenido disponible: Unidad 1 y 2</p>
-                <button class="btn-entrar">Entrar al Aula</button>
+        <!-- SECCIÓN 1: AULAS VIRTUALES -->
+        <div id="sec-aulas" class="seccion-panel activa">
+            <h2>Tus Aulas Virtuales</h2>
+            <div class="grid-clases">
+                <div class="clase-card">
+                    <h3>Informática</h3>
+                    <p><strong>Clase:</strong> Arquitectura e Instalación</p>
+                    <button class="btn-entrar" onclick="verAula('Informática')">Ver Asignación</button>
+                </div>
+                <div class="clase-card">
+                    <h3>Programación</h3>
+                    <p><strong>Clase:</strong> Lógica e Interfaces (.NET/JS)</p>
+                    <button class="btn-entrar" onclick="verAula('Programación')">Ver Asignación</button>
+                </div>
+                <div class="clase-card">
+                    <h3>Base de Datos</h3>
+                    <p><strong>Clase:</strong> Consultas Estructuradas SQL</p>
+                    <button class="btn-entrar" onclick="verAula('Base de Datos')">Ver Asignación</button>
+                </div>
             </div>
-            <div class="clase-card">
-                <h3>Programación</h3>
-                <p>Profesor: Asignado</p>
-                <p>Contenido disponible: Laboratorio Práctico</p>
-                <button class="btn-entrar">Entrar al Aula</button>
-            </div>
-            <div class="clase-card">
-                <h3>Base de Datos</h3>
-                <p>Profesor: Asignado</p>
-                <p>Contenido disponible: Estructuras SQL</p>
-                <button class="btn-entrar">Entrar al Aula</button>
+            
+            <!-- Visor del Aula Interna Dinámica -->
+            <div id="visor-aula" style="margin-top: 30px; display: none; background: white; padding: 20px; border-radius: 8px;">
+                <h3 id="aula-titulo" style="color: var(--azul-marino);"></h3>
+                <p id="aula-contenido"></p>
             </div>
         </div>
+
+        <!-- SECCIÓN 2: CALIFICACIONES (Para Estudiantes) -->
+        <div id="sec-calificaciones" class="seccion-panel">
+            <h2>Cuadro de Calificaciones</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Asignatura</th>
+                        <th>I Parcial</th>
+                        <th>II Parcial</th>
+                        <th>Nota Final</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Informática</td><td>28%</td><td>30%</td><td>--</td><td>Cursando</td></tr>
+                    <tr><td>Programación</td><td>32%</td><td>29%</td><td>--</td><td>Cursando</td></tr>
+                    <tr><td>Base de Datos</td><td>30%</td><td>35%</td><td>--</td><td>Cursando</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECCIÓN 3: CONTROL DOCENTE (Solo visible para Maestros) -->
+        <div id="sec-maestros" class="seccion-panel">
+            <h2>Panel de Control Docente</h2>
+            <p>Gestión de asistencia institucional obligatoria y acumulados académicos.</p>
+            <h3>Lista de Asistencia Rápida</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Alumno</th>
+                        <th>Asignatura</th>
+                        <th>Estado Presencia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Miguel Medina</td><td>Laboratorio Linux</td><td><select><option>Presente</option><option>Ausente</option></select></td></tr>
+                    <tr><td>César Garcia</td><td>Programación .NET</td><td><select><option>Presente</option><option>Ausente</option></select></td></tr>
+                    <tr><td>Jafet Ortega</td><td>Base de Datos SQL</td><td><select><option>Presente</option><option>Ausente</option></select></td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-<script>
-        // Leer los datos que guardamos en el login
+
+    <!-- LÓGICA DE INTERACCIÓN -->
+    <script>
         const datosSesion = localStorage.getItem('sesionPANB');
 
         if (!datosSesion) {
-            // Si alguien intenta entrar sin loguearse, lo regresa al login
             window.location.href = 'index.html';
         } else {
             const usuario = JSON.parse(datosSesion);
-            
-            // Modificar la interfaz dinámicamente con sus datos reales
             document.getElementById('welcomeTitle').innerText = `Bienvenido, ${usuario.nombre}`;
             document.getElementById('userRole').innerText = usuario.rol;
 
-            // Si es estudiante, ocultamos funciones exclusivas de maestros
+            // Restricción de Rol
             if (usuario.rol === 'Estudiante') {
-                const btnMaestros = document.getElementById('btnMaestros');
-                if (btnMaestros) btnMaestros.style.display = 'none';
+                document.getElementById('btnMaestros').style.display = 'none';
             }
         }
 
-        // Lógica sencilla para el botón de cerrar sesión
-        document.querySelector('.sidebar button[style*="background"]').addEventListener('click', function() {
+        // Navegación entre pestañas del Menú
+        function cambiarSeccion(seccion) {
+            // Desactivar todas las secciones
+            document.querySelectorAll('.seccion-panel').forEach(sec => sec.classList.remove('activa'));
+            document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Activar la seleccionada
+            if(seccion === 'aulas') {
+                document.getElementById('sec-aulas').classList.add('activa');
+            } else if(seccion === 'calificaciones') {
+                document.getElementById('sec-calificaciones').classList.add('activa');
+            } else if(seccion === 'maestros') {
+                document.getElementById('sec-maestros').classList.add('activa');
+            }
+            
+            // Poner botón activo
+            event.target.classList.add('active');
+        }
+
+        // Simular la entrada a un Aula Virtual
+        function verAula(nombreAula) {
+            const visor = document.getElementById('visor-aula');
+            const titulo = document.getElementById('aula-titulo');
+            const contenido = document.getElementById('aula-contenido');
+
+            visor.style.display = "block";
+            titulo.innerText = `Contenido de: ${nombreAula}`;
+            
+            if(nombreAula === 'Informática') {
+                contenido.innerHTML = "<strong>Tarea Actual:</strong> Subir el diagrama de conexión de red local y topologías del laboratorio de cómputo. <br><br> <input type='file'> <button style='background: #122D52; color:white; border:none; padding:5px; margin-top:5px; border-radius:3px;'>Subir Archivo</button>";
+            } else if(nombreAula === 'Programación') {
+                contenido.innerHTML = "<strong>Proyecto de Clase:</strong> Estructurar la redirección del Login institucional mediante scripts de JavaScript local. <br><br><span style='color: green;'>✔ Entregado en repositorio</span>";
+            } else if(nombreAula === 'Base de Datos') {
+                contenido.innerHTML = "<strong>Laboratorio:</strong> Diseñar las tablas relacionales para el control de alumnos, maestros y notas parciales en SQL.";
+            }
+        }
+
+        function cerrarSesion() {
             localStorage.removeItem('sesionPANB');
             window.location.href = 'index.html';
-        });
+        }
     </script>
 </body>
 </html>
