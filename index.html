@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PANB - Iniciar Sesión</title>
+    <style>
+        :root {
+            --azul-marino: #122D52;
+            --azul-claro: #569CFA;
+            --plata: #848B96;
+            --blanco: #FFFFFF;
+            --gris-fondo: #F4F6F9;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--gris-fondo);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-card {
+            background: var(--blanco);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border-top: 5px solid var(--azul-marino);
+        }
+        h2 { color: var(--azul-marino); margin-bottom: 5px; }
+        h3 { color: var(--azul-claro); margin-top: 0; font-weight: normal; font-size: 1.1rem; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: var(--azul-marino); font-weight: bold; font-size: 0.9rem; }
+        input { width: 100%; padding: 10px; border: 1px solid var(--plata); border-radius: 5px; box-sizing: border-box; }
+        input:focus { border-color: var(--azul-claro); outline: none; }
+        .btn { width: 100%; padding: 12px; background-color: var(--azul-marino); color: white; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; font-weight: bold; transition: background 0.3s; }
+        .btn:hover { background-color: #0b1d36; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h2>PORTAL ACADÉMICO</h2>
+        <h3>Nimia Baquedano</h3>
+        <br>
+        <form id="loginForm">
+            <div class="input-group">
+                <label>Nombre Completo</label>
+                <input type="text" placeholder="Ej. Juan Pérez" required>
+            </div>
+            <div class="input-group">
+                <label>Correo Electrónico</label>
+                <input type="email" placeholder="usuario@instituto.edu" required>
+            </div>
+            <div class="input-group">
+                <label>Número de Identidad (Llave Única)</label>
+                <input type="text" placeholder="0801-XXXX-XXXXX" required>
+            </div>
+            <button type="submit" class="btn">Entrar al Portal</button>
+        </form>
+    </div>
+
+</body>
+</html>
