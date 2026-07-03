@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PANB - Portal Académico</title>
+    <title>PANB - Portal Universitario</title>
     <style>
         :root {
             --azul-marino: #122D52;
@@ -11,255 +11,357 @@
             --plata: #848B96;
             --blanco: #FFFFFF;
             --gris-fondo: #F4F6F9;
+            --verde-exito: #2ecc71;
+            --rojo-alerta: #e74c3c;
         }
-        * { box-sizing: border-box; }
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--gris-fondo);
-            display: flex;
-            height: 100vh;
-        }
-        /* Menú Lateral */
-        .sidebar {
-            width: 260px;
-            background-color: var(--azul-marino);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
-        .sidebar h2 {
-            font-size: 1.2rem;
-            text-align: center;
-            border-bottom: 2px solid var(--azul-claro);
-            padding-bottom: 15px;
-            margin-top: 10px;
-        }
-        .menu-btn {
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 12px 15px;
-            text-align: left;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-bottom: 8px;
-            transition: 0.3s;
-            width: 100%;
-        }
-        .menu-btn:hover, .menu-btn.active {
-            background-color: var(--azul-claro);
-        }
-        /* Contenido Principal */
-        .main-content {
-            flex: 1;
-            padding: 30px;
-            overflow-y: auto;
-        }
-        .header-bar {
-            background: var(--blanco);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            border-left: 5px solid var(--azul-claro);
-        }
-        .header-bar h1 { margin: 0; color: var(--azul-marino); font-size: 1.6rem; }
-        .user-tag { background: var(--azul-marino); color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem;}
+        * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { margin: 0; padding: 0; background-color: var(--gris-fondo); display: flex; height: 100vh; overflow: hidden; }
         
-        /* Contenedores de Secciones */
-        .seccion-panel { display: none; }
-        .seccion-panel.activa { display: block; }
+        /* Menú Lateral Estilo Universidad */
+        .sidebar { width: 280px; background-color: var(--azul-marino); color: white; display: flex; flex-direction: column; box-shadow: 3px 0 10px rgba(0,0,0,0.1); }
+        .sidebar-header { padding: 25px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-header h2 { margin: 0; font-size: 1.3rem; letter-spacing: 1px; color: var(--blanco); }
+        .sidebar-header p { margin: 5px 0 0 0; font-size: 0.8rem; color: var(--azul-claro); font-weight: bold; }
+        .sidebar-menu { padding: 20px 15px; flex: 1; }
+        .menu-btn { background: transparent; border: none; color: #b8c7ce; padding: 12px 15px; text-align: left; font-size: 0.95rem; cursor: pointer; border-radius: 4px; margin-bottom: 8px; transition: all 0.3s; width: 100%; display: flex; align-items: center; }
+        .menu-btn:hover, .menu-btn.active { background-color: rgba(255,255,255,0.05); color: var(--blanco); border-left: 4px solid var(--azul-claro); padding-left: 11px; }
+        .logout-btn { margin: auto 15px 20px 15px; background: var(--rojo-alerta); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .logout-btn:hover { background: #c0392b; }
 
-        /* Aulas y Tarjetas */
-        .grid-clases {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .clase-card {
-            background: var(--blanco);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border-top: 4px solid var(--azul-marino);
-        }
-        .clase-card h3 { margin-top: 0; color: var(--azul-marino); }
-        .btn-entrar {
-            background: var(--azul-marino);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.9rem;
-            width: 100%;
-        }
+        /* Contenedor de Contenido Principal */
+        .main-content { flex: 1; display: flex; flex-direction: column; height: 100vh; }
+        .header-bar { background: var(--blanco); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-bottom: 1px solid #e0e0e0; }
+        .header-bar h1 { margin: 0; color: var(--azul-marino); font-size: 1.4rem; }
+        .user-profile { display: flex; align-items: center; gap: 12px; }
+        .user-info text-align: right; { }
+        .user-name { block; font-weight: bold; color: var(--azul-marino); font-size: 0.95rem; }
+        .user-tag { background: #e8edf5; color: var(--azul-marino); padding: 3px 12px; border-radius: 12px; font-weight: bold; font-size: 0.75rem; display: inline-block; margin-top: 2px; }
+        
+        .content-body { flex: 1; padding: 30px; overflow-y: auto; }
+        .seccion-panel { display: none; }
+        .seccion-panel.activa { display: block; animation: fadeIn 0.4s ease; }
+
+        /* Tarjetas del Grid Académico */
+        .grid-clases { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin-top: 15px; }
+        .clase-card { background: var(--blanco); border-radius: 6px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #eef2f5; border-top: 4px solid var(--azul-marino); transition: transform 0.2s, box-shadow 0.2s; }
+        .clase-card:hover { transform: translateY(-4px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+        .clase-card h3 { margin: 0 0 10px 0; color: var(--azul-marino); font-size: 1.2rem; }
+        .clase-card p { color: #666; font-size: 0.9rem; margin: 5px 0; }
+        .btn-entrar { background: var(--azul-marino); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; transition: 0.2s; }
         .btn-entrar:hover { background: var(--azul-claro); }
 
-        /* Tablas */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            margin-top: 15px;
-        }
-        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background-color: var(--azul-marino); color: white; }
+        /* Espacio de Trabajo Interno de las Aulas */
+        .workspace-aula { background: var(--blanco); border-radius: 6px; padding: 30px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border: 1px solid #eef2f5; display: none; }
+        .workspace-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f4f6f9; padding-bottom: 15px; margin-bottom: 20px; }
+        .zone-entrega { background: #fafbfc; padding: 20px; border-radius: 6px; border: 1px dashed var(--plata); margin-top: 20px; }
+
+        /* Tablas de Calificaciones y Asistencia Estilo Universidad */
+        .univ-table { width: 100%; border-collapse: collapse; background: var(--blanco); border-radius: 6px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #eef2f5; margin-top: 15px; }
+        .univ-table th { background-color: var(--azul-marino); color: white; padding: 14px 18px; text-align: left; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.5px; }
+        .univ-table td { padding: 14px 18px; text-align: left; border-bottom: 1px solid #eef2f5; color: #333; font-size: 0.9rem; }
+        .univ-table tr:last-child td { border-bottom: none; }
+        .univ-table tr:nth-child(even) { background-color: #fafbfc; }
+
+        /* Componentes de Estado */
+        .status-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; display: inline-block; }
+        .entregado { background-color: #e8f8f5; color: var(--verde-exito); }
+        .pendiente { background-color: #fef9e7; color: #f39c12; }
+        input[type="number"], select { padding: 8px 12px; border-radius: 4px; border: 1px solid #ccd1d9; width: 80px; font-size: 0.9rem; }
+        .btn-action { background: var(--verde-exito); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-action:hover { opacity: 0.9; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <!-- Menú Lateral -->
+    <!-- Menú Lateral Izquierdo Fijo -->
     <div class="sidebar">
-        <h2>PANB VIRTUAL</h2>
-        <br>
-        <button class="menu-btn active" onclick="cambiarSeccion('aulas')">🏫 Aulas Virtuales</button>
-        <button class="menu-btn" id="btnNotas" onclick="cambiarSeccion('calificaciones')">📊 Calificaciones</button>
-        <button class="menu-btn" id="btnMaestros" onclick="cambiarSeccion('maestros')">👨‍🏫 Control Docente</button>
-        <button class="menu-btn" style="margin-top: auto; background: #c0392b;" onclick="cerrarSesion()">🚪 Cerrar Sesión</button>
+        <div class="sidebar-header">
+            <h2>PORTAL ACADÉMICO</h2>
+            <p>Nimia Baquedano</p>
+        </div>
+        <div class="sidebar-menu">
+            <button class="menu-btn active" onclick="cambiarSeccion('aulas')">🏫 Aulas Virtuales</button>
+            <button class="menu-btn" id="btnNotas" onclick="cambiarSeccion('calificaciones')">📊 Mis Calificaciones</button>
+            <button class="menu-btn" id="btnMaestros" onclick="cambiarSeccion('maestros')">👨‍🏫 Control Docente</button>
+        </div>
+        <button class="logout-btn" onclick="cerrarSesion()">🚪 Cerrar Sesión</button>
     </div>
 
-    <!-- Panel Central Contenedor -->
+    <!-- Panel de Contenido Principal -->
     <div class="main-content">
         <div class="header-bar">
-            <h1 id="welcomeTitle">Cargando...</h1>
-            <span class="user-tag" id="userRole">Estudiante</span>
-        </div>
-
-        <!-- SECCIÓN 1: AULAS VIRTUALES -->
-        <div id="sec-aulas" class="seccion-panel activa">
-            <h2>Tus Aulas Virtuales</h2>
-            <div class="grid-clases">
-                <div class="clase-card">
-                    <h3>Informática</h3>
-                    <p><strong>Clase:</strong> Arquitectura e Instalación</p>
-                    <button class="btn-entrar" onclick="verAula('Informática')">Ver Asignación</button>
-                </div>
-                <div class="clase-card">
-                    <h3>Programación</h3>
-                    <p><strong>Clase:</strong> Lógica e Interfaces (.NET/JS)</p>
-                    <button class="btn-entrar" onclick="verAula('Programación')">Ver Asignación</button>
-                </div>
-                <div class="clase-card">
-                    <h3>Base de Datos</h3>
-                    <p><strong>Clase:</strong> Consultas Estructuradas SQL</p>
-                    <button class="btn-entrar" onclick="verAula('Base de Datos')">Ver Asignación</button>
+            <h1>Sistema de Gestión Universitaria</h1>
+            <div class="user-profile">
+                <div class="user-info">
+                    <span class="user-name" id="userDisplayName">Cargando Usuario...</span>
+                    <span class="user-tag" id="userRole">Estudiante</span>
                 </div>
             </div>
-            
-            <!-- Visor del Aula Interna Dinámica -->
-            <div id="visor-aula" style="margin-top: 30px; display: none; background: white; padding: 20px; border-radius: 8px;">
-                <h3 id="aula-titulo" style="color: var(--azul-marino);"></h3>
-                <p id="aula-contenido"></p>
+        </div>
+
+        <div class="content-body">
+            <!-- SECCIÓN 1: AULAS VIRTUALES -->
+            <div id="sec-aulas" class="seccion-panel activa">
+                <div id="lista-aulas-grid">
+                    <h2 style="color: var(--azul-marino); margin-top: 0;">Asignaturas Matriculadas</h2>
+                    <div class="grid-clases">
+                        <div class="clase-card">
+                            <h3>Informática</h3>
+                            <p><strong>Módulo:</strong> Arquitectura e Instalación de Hardware</p>
+                            <p><strong>Docente:</strong> Ing. Coordinador</p>
+                            <button class="btn-entrar" onclick="abrirEspacioAula('Informática')">Acceder al Aula</button>
+                        </div>
+                        <div class="clase-card">
+                            <h3>Programación</h3>
+                            <p><strong>Módulo:</strong> Desarrollo Web e Interfaces Dinámicas</p>
+                            <p><strong>Docente:</strong> Ing. Coordinador</p>
+                            <button class="btn-entrar" onclick="abrirEspacioAula('Programación')">Acceder al Aula</button>
+                        </div>
+                        <div class="clase-card">
+                            <h3>Base de Datos</h3>
+                            <p><strong>Módulo:</strong> Modelado Estructurado y Lenguaje SQL</p>
+                            <p><strong>Docente:</strong> Ing. Coordinador</p>
+                            <button class="btn-entrar" onclick="abrirEspacioAula('Base de Datos')">Acceder al Aula</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ESPACIO DE TRABAJO TÉCNICO DENTRO DEL AULA -->
+                <div id="workspace-aula" class="workspace-aula">
+                    <div class="workspace-header">
+                        <h3 id="workspace-titulo" style="color: var(--azul-marino); margin: 0; font-size: 1.4rem;"></h3>
+                        <button onclick="cerrarEspacioAula()" style="background:#848B96; color:white; border:none; padding:8px 14px; border-radius:4px; cursor:pointer; font-weight:bold;">📋 Volver al Listado</button>
+                    </div>
+                    
+                    <div style="margin-top: 10px;">
+                        <h4 style="color: #444; margin-bottom: 5px;">Asignación del Período:</h4>
+                        <p id="workspace-tarea-desc" style="color: #666; line-height: 1.5; margin-top: 0;"></p>
+                        
+                        <div class="zone-entrega">
+                            <p style="margin-top:0;"><strong>Estado del Envío:</strong> <span id="entrega-estado-badge"></span></p>
+                            <div id="formulario-archivo">
+                                <!-- Interactivo vía JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- SECCIÓN 2: CALIFICACIONES (Para Estudiantes) -->
-        <div id="sec-calificaciones" class="seccion-panel">
-            <h2>Cuadro de Calificaciones</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Asignatura</th>
-                        <th>I Parcial</th>
-                        <th>II Parcial</th>
-                        <th>Nota Final</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Informática</td><td>28%</td><td>30%</td><td>--</td><td>Cursando</td></tr>
-                    <tr><td>Programación</td><td>32%</td><td>29%</td><td>--</td><td>Cursando</td></tr>
-                    <tr><td>Base de Datos</td><td>30%</td><td>35%</td><td>--</td><td>Cursando</td></tr>
-                </tbody>
-            </table>
-        </div>
+            <!-- SECCIÓN 2: CALIFICACIONES (Estudiantes) -->
+            <div id="sec-calificaciones" class="seccion-panel">
+                <h2 style="color: var(--azul-marino); margin-top: 0;">Historial de Calificaciones</h2>
+                <p style="color: var(--plata); margin-top: -10px; font-size: 0.9rem;">Registro consolidado del año académico actual.</p>
+                <table class="univ-table">
+                    <thead>
+                        <tr>
+                            <th>Unidad Académica</th>
+                            <th>Nota I Parcial (50%)</th>
+                            <th>Nota II Parcial (50%)</th>
+                            <th>Calificación Final</th>
+                            <th>Resolución</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-notas-estudiante">
+                        <!-- Carga dinámica -->
+                    </tbody>
+                </table>
+            </div>
 
-        <!-- SECCIÓN 3: CONTROL DOCENTE (Solo visible para Maestros) -->
-        <div id="sec-maestros" class="seccion-panel">
-            <h2>Panel de Control Docente</h2>
-            <p>Gestión de asistencia institucional obligatoria y acumulados académicos.</p>
-            <h3>Lista de Asistencia Rápida</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Alumno</th>
-                        <th>Asignatura</th>
-                        <th>Estado Presencia</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Miguel Medina</td><td>Laboratorio Linux</td><td><select><option>Presente</option><option>Ausente</option></select></td></tr>
-                    <tr><td>César Garcia</td><td>Programación .NET</td><td><select><option>Presente</option><option>Ausente</option></select></td></tr>
-                    <tr><td>Jafet Ortega</td><td>Base de Datos SQL</td><td><select><option>Presente</option><option>Ausente</option></select></td></tr>
-                </tbody>
-            </table>
+            <!-- SECCIÓN 3: CONTROL DOCENTE (Maestros) -->
+            <div id="sec-maestros" class="seccion-panel">
+                <h2 style="color: var(--azul-marino); margin-top: 0;">Panel de Administración Docente</h2>
+                <p style="color: var(--plata); margin-top: -10px; font-size: 0.9rem;">Registro y edición centralizada de actas institucionales.</p>
+                
+                <h3 style="color: var(--azul-marino); margin-top: 25px; font-size: 1.1rem;">1. Control de Actas (Calificaciones)</h3>
+                <table class="univ-table">
+                    <thead>
+                        <tr>
+                            <th>Estudiante</th>
+                            <th>Asignatura</th>
+                            <th>Nota I Parcial</th>
+                            <th>Nota II Parcial</th>
+                            <th>Operación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Miguel Medina[cite: 1]</strong></td>
+                            <td>Informática</td>
+                            <td><input type="number" id="nota-miguel-1" min="0" max="50" value="38"></td>
+                            <td><input type="number" id="nota-miguel-2" min="0" max="50" value="42"></td>
+                            <td><button class="btn-action" onclick="guardarNotaDocente('Miguel Medina', 'Informática', 'nota-miguel-1', 'nota-miguel-2')">Actualizar Acta</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>César Garcia[cite: 1]</strong></td>
+                            <td>Programación</td>
+                            <td><input type="number" id="nota-cesar-1" min="0" max="50" value="45"></td>
+                            <td><input type="number" id="nota-cesar-2" min="0" max="50" value="40"></td>
+                            <td><button class="btn-action" onclick="guardarNotaDocente('César Garcia', 'Programación', 'nota-cesar-1', 'nota-cesar-2')">Actualizar Acta</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="color: var(--azul-marino); margin-top: 30px; font-size: 1.1rem;">2. Registro Estadístico de Asistencia</h3>
+                <table class="univ-table">
+                    <thead>
+                        <tr>
+                            <th>Estudiante Matriculado</th>
+                            <th>Cátedra</th>
+                            <th>Condición Presencial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Miguel Medina[cite: 1]</td><td>Informática</td><td><select onchange="alert('Asistencia grabada en el registro universitario.')"><option>Presente</option><option>Ausente</option></select></td></tr>
+                        <tr><td>César Garcia[cite: 1]</td><td>Programación</td><td><select onchange="alert('Asistencia grabada en el registro universitario.')"><option>Presente</option><option>Ausente</option></select></td></tr>
+                        <tr><td>Jafet Ortega[cite: 1]</td><td>Base de Datos</td><td><select onchange="alert('Asistencia grabada en el registro universitario.')"><option>Presente</option><option>Ausente</option></select></td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <!-- LÓGICA DE INTERACCIÓN -->
+    <!-- LÓGICA DE INTERACCIÓN INTEGRAL -->
     <script>
-        const datosSesion = localStorage.getItem('sesionPANB');
+        let usuarioActivo = null;
+        let aulaActualActiva = "";
 
+        // Inicializar persistencia de datos (Simulación de BD)
+        if (!localStorage.getItem('panb_notas')) {
+            localStorage.setItem('panb_notas', JSON.stringify({
+                "Informática": { p1: 38, p2: 42 },
+                "Programación": { p1: 45, p2: 40 },
+                "Base de Datos": { p1: 35, p2: 37 }
+            }));
+        }
+        if (!localStorage.getItem('panb_entregas')) localStorage.setItem('panb_entregas', JSON.stringify({}));
+
+        // Validación estricta de sesión
+        const datosSesion = localStorage.getItem('sesionPANB');
         if (!datosSesion) {
             window.location.href = 'index.html';
         } else {
-            const usuario = JSON.parse(datosSesion);
-            document.getElementById('welcomeTitle').innerText = `Bienvenido, ${usuario.nombre}`;
-            document.getElementById('userRole').innerText = usuario.rol;
+            usuarioActivo = JSON.parse(datosSesion);
+            document.getElementById('userDisplayName').innerText = usuarioActivo.nombre;
+            const rol = usuarioActivo.rol || usuarioActivo.role;
+            document.getElementById('userRole').innerText = rol;
 
-            // Restricción de Rol
-            if (usuario.rol === 'Estudiante') {
+            if (rol === 'Estudiante') {
                 document.getElementById('btnMaestros').style.display = 'none';
             }
+            renderizarNotasEstudiante();
         }
 
-        // Navegación entre pestañas del Menú
+        // Cambio limpio de vistas del menú superior/lateral
         function cambiarSeccion(seccion) {
-            // Desactivar todas las secciones
             document.querySelectorAll('.seccion-panel').forEach(sec => sec.classList.remove('activa'));
             document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
 
-            // Activar la seleccionada
-            if(seccion === 'aulas') {
-                document.getElementById('sec-aulas').classList.add('activa');
-            } else if(seccion === 'calificaciones') {
+            if(seccion === 'aulas') document.getElementById('sec-aulas').classList.add('activa');
+            if(seccion === 'calificaciones') {
+                renderizarNotasEstudiante();
                 document.getElementById('sec-calificaciones').classList.add('activa');
-            } else if(seccion === 'maestros') {
-                document.getElementById('sec-maestros').classList.add('activa');
             }
+            if(seccion === 'maestros') document.getElementById('sec-maestros').classList.add('activa');
             
-            // Poner botón activo
             event.target.classList.add('active');
         }
 
-        // Simular la entrada a un Aula Virtual
-        function verAula(nombreAula) {
-            const visor = document.getElementById('visor-aula');
-            const titulo = document.getElementById('aula-titulo');
-            const contenido = document.getElementById('aula-contenido');
+        // Tareas del Espacio de Trabajo Técnico
+        const descripcionesTareas = {
+            "Informática": "Subir el diagrama detallado de la arquitectura de la placa base y la infraestructura de red del laboratorio.",
+            "Programación": "Adjuntar el archivo index.html corregido que implemente la persistencia total de datos con arreglos locales.",
+            "Base de Datos": "Subir el script DDL de creación de tablas relacionales para el control de asistencia institucional."
+        };
 
-            visor.style.display = "block";
-            titulo.innerText = `Contenido de: ${nombreAula}`;
+        function abrirEspacioAula(nombreAula) {
+            aulaActualActiva = nombreAula;
+            document.getElementById('lista-aulas-grid').style.display = 'none';
+            const workspace = document.getElementById('workspace-aula');
+            workspace.style.display = 'block';
             
-            if(nombreAula === 'Informática') {
-                contenido.innerHTML = "<strong>Tarea Actual:</strong> Subir el diagrama de conexión de red local y topologías del laboratorio de cómputo. <br><br> <input type='file'> <button style='background: #122D52; color:white; border:none; padding:5px; margin-top:5px; border-radius:3px;'>Subir Archivo</button>";
-            } else if(nombreAula === 'Programación') {
-                contenido.innerHTML = "<strong>Proyecto de Clase:</strong> Estructurar la redirección del Login institucional mediante scripts de JavaScript local. <br><br><span style='color: green;'>✔ Entregado en repositorio</span>";
-            } else if(nombreAula === 'Base de Datos') {
-                contenido.innerHTML = "<strong>Laboratorio:</strong> Diseñar las tablas relacionales para el control de alumnos, maestros y notas parciales en SQL.";
+            document.getElementById('workspace-titulo').innerText = `Entorno de Aula: ${nombreAula}`;
+            document.getElementById('workspace-tarea-desc').innerText = descripcionesTareas[nombreAula];
+            actualizarEstadoEntregaUI();
+        }
+
+        function cerrarEspacioAula() {
+            document.getElementById('workspace-aula').style.display = 'none';
+            document.getElementById('lista-aulas-grid').style.display = 'block';
+        }
+
+        function actualizarEstadoEntregaUI() {
+            const entregas = JSON.parse(localStorage.getItem('panb_entregas'));
+            const llave = `${usuarioActivo.email}_${aulaActualActiva}`;
+            const badge = document.getElementById('entrega-estado-badge');
+            const formArchivo = document.getElementById('formulario-archivo');
+
+            if (entregas[llave]) {
+                badge.innerText = "ENTREGADO";
+                badge.className = "status-badge entregado";
+                formArchivo.innerHTML = `<p style="color:var(--verde-exito); font-weight:bold; margin-bottom:15px;">✔ Archivo universitario listo en servidor: "${entregas[llave]}"</p>
+                                         <button onclick="anularEntrega()" style="background:var(--rojo-alerta); color:white; border:none; padding:8px 12px; border-radius:4px; cursor:pointer; font-weight:bold;">Anular Carga de Archivo</button>`;
+            } else {
+                badge.innerText = "PENDIENTE";
+                badge.className = "status-badge pendiente";
+                formArchivo.innerHTML = `<input type="file" id="archivo-tarea" style="margin-bottom:10px; display:block;">
+                                         <button class="btn-action" style="background: var(--azul-marino);" onclick="subirTareaSimulada()">Cargar al Expediente</button>`;
             }
+        }
+
+        function subirTareaSimulada() {
+            const fileInput = document.getElementById('archivo-tarea');
+            if(fileInput.files.length === 0) {
+                alert("Seleccione un documento del explorador local.");
+                return;
+            }
+            const nombreArchivo = fileInput.files[0].name;
+            const entregas = JSON.parse(localStorage.getItem('panb_entregas'));
+            entregas[`${usuarioActivo.email}_${aulaActualActiva}`] = nombreArchivo;
+            localStorage.setItem('panb_entregas', JSON.stringify(entregas));
+            
+            alert("El archivo técnico se ha cargado al expediente correctamente.");
+            actualizarEstadoEntregaUI();
+        }
+
+        function anularEntrega() {
+            const entregas = JSON.parse(localStorage.getItem('panb_entregas'));
+            delete entregas[`${usuarioActivo.email}_${aulaActualActiva}`];
+            localStorage.setItem('panb_entregas', JSON.stringify(entregas));
+            actualizarEstadoEntregaUI();
+        }
+
+        function renderizarNotasEstudiante() {
+            const notas = JSON.parse(localStorage.getItem('panb_notas'));
+            const tbody = document.getElementById('tabla-notas-estudiante');
+            tbody.innerHTML = "";
+
+            for (let materia in notas) {
+                const p1 = parseFloat(notas[materia].p1);
+                const p2 = parseFloat(notas[materia].p2);
+                const total = p1 + p2;
+                const estado = total >= 70 ? '<span style="color:var(--verde-exito); font-weight:bold;">Aprobado</span>' : '<span style="color:#f39c12; font-weight:bold;">En Curso</span>';
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${materia}</strong></td>
+                        <td>${p1}% / 50%</td>
+                        <td>${p2}% / 50%</td>
+                        <td><strong>${total}%</strong></td>
+                        <td>${estado}</td>
+                    </tr>
+                `;
+            }
+        }
+
+        function guardarNotaDocente(alumno, materia, idInput1, idInput2) {
+            const n1 = document.getElementById(idInput1).value;
+            const n2 = document.getElementById(idInput2).value;
+            const notas = JSON.parse(localStorage.getItem('panb_notas'));
+            notas[materia] = { p1: n1, p2: n2 };
+            localStorage.setItem('panb_notas', JSON.stringify(notas));
+            alert(`Acta universitaria actualizada. Asignatura: ${materia}.`);
         }
 
         function cerrarSesion() {
