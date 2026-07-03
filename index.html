@@ -63,6 +63,36 @@
             <button type="submit" class="btn">Entrar al Portal</button>
         </form>
     </div>
+<script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Capturar los datos del formulario
+            const inputs = document.querySelectorAll('#loginForm input');
+            const nombre = inputs[0].value;
+            const correo = inputs[1].value;
+            const identidad = inputs[2].value;
 
+            // Crear el objeto de sesión
+            const usuario = {
+                nombre: nombre,
+                correo: correo,
+                identidad: identidad,
+                rol: 'Estudiante' // Rol por defecto
+            };
+
+            // Regla simple: si el correo institucional contiene "maestro", cambia el rol
+            if (correo.toLowerCase().includes('maestro')) {
+                usuario.rol = 'Maestro';
+            }
+
+            // Guardar en la memoria temporal del navegador
+            localStorage.setItem('sesionPANB', JSON.stringify(usuario));
+            
+            // Redirigir a la interfaz elegante
+            window.location.href = 'dashboard.html';
+        });
+    </script>
 </body>
+    
 </html>
